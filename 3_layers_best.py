@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import time
+import timeit
 
 def softmax(x):
     if x.ndim == 1:
@@ -141,7 +141,7 @@ def train_nn(hidden_neurons1, hidden_neurons2):
 
 
     arre = np.zeros((40, 3))
-    start = time.process_time()
+    start = timeit.default_timer()
     for i in range(2000):
         J, gradW1, gradW2, gradb1, gradb2, gradW3, gradb3 = cost_grad(w1, w2, w3, b1, b2, b3, X_train, y_train)
         lra = 0.09 * ((2000 - i) / 2000)
@@ -155,7 +155,7 @@ def train_nn(hidden_neurons1, hidden_neurons2):
 
             print("cost:", J)
         i += 1
-    end = time.process_time()
+    end = timeit.default_timer()
     time_taken = end - start
     _, t_acc = give_acc(X_train, y_train, X_test, y_test, w1, w2, w3, b1, b2, b3)
     pd.DataFrame(np.reshape(w1, (-1))).to_csv("w1_3ly"+str(hidden_neurons1)+"_"+str(hidden_neurons2)+".csv", index=False)
@@ -171,11 +171,22 @@ def train_nn(hidden_neurons1, hidden_neurons2):
 vals = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 outc = np.zeros((10,10))
 outc_time = np.zeros((10,10))
+"""
 for k in vals:
     for j in vals:
         accu, time = train_nn(k,j)
         outc[((0.01*k)-1),((0.01*j)-1)] = accu
         outc_time[((0.01 * k) - 1), ((0.01 * j) - 1)] = time
+"""
+k = 0
+j = 0
+while k<10:
+    while j<10:
+	accu, time = train_nn(vals[k],vals[j])
+        outc[k,j] = accu
+        outc_time[k,j] = time
+	j += 1
+    k += 1
 
 pd.DataFrame(outc).to_csv("3_ly_best.csv", index=False)
 pd.DataFrame(outc_time).to_csv("3_ly_best_time.csv", index=False)
