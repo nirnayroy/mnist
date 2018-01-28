@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import time
+import timeit
 
 def softmax(x):
 
@@ -89,6 +89,8 @@ def train_nn(batch_size):
     X_train = X[0:round(m * (0.9)), :]
     X_test = X[0:(m - round(m * (0.9))), :]
 
+    (m_train, n_train) = X_train.shape
+
     hidden_neurons = 500
     output_neurons = 10
 
@@ -123,13 +125,13 @@ def train_nn(batch_size):
     """
 
     # lra = 0.9(1-i/1000)
-    batch_size = 100
-    # i=0
-    start = time.process_time()
-    for i in range(2000):
-        idx = np.random.randint(m, size=batch_size)
+    #batch_size = 100
+    i=0
+    start = timeit.default_timer()
+    while i<2000:
+        idx = np.random.randint(m_train, size=batch_size)
         J, gradW1, gradW2, gradb1, gradb2 = cost_grad(w1, w2, b1, b2, X_train[idx,:], y_train[idx,:])
-        lra = 0.9(1 - i / 2000)
+        lra = 0.9*(1 - (i / 2000))
         w2 = w2 - (lra * gradW2)
         b2 = b2 - (lra * gradb2)
         w1 = w1 - (lra * gradW1)
@@ -138,7 +140,7 @@ def train_nn(batch_size):
 
             print("cost:", J)
         i += 1
-    end = time.process_time()
+    end = timeit.default_timer()
     time_taken = end - start
     _, t_acc = give_acc(X_train, y_train, X_test, y_test, w1, w2, b1, b2)
     pd.DataFrame(np.reshape(w1, (-1))).to_csv("w1_2ly"+str(hidden_neurons)+".csv", index=False)
@@ -149,13 +151,13 @@ def train_nn(batch_size):
 
 paras = [50, 100, 500, 1000, 2000]
 
-outc = np.zeros(10)
-outc_time = np.zeros(10)
-for i in paras:
-    accu, time = train_nn(i)
+outc = np.zeros(5)
+outc_time = np.zeros(5)
+
+for q in range(5):
+    accu, time = train_nn(paras[q])
     outc[q] = accu
     outc_time[q] = time
-    q = 0
     q += 1
 pd.DataFrame(outc).to_csv("2_ly_sgd.csv", index=False)
 pd.DataFrame(outc_time).to_csv("2_ly_sgd_time.csv", index=False)
