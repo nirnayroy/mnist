@@ -173,7 +173,7 @@ outc = np.zeros((10,10))
 outc_time = np.zeros((10,10))
 while k<10:
     while j<10:
-        accu, time = train_nn(k,j)
+        accu, time = train_nn(vals[k],vals[j])
         outc[k, j] = accu
         outc_time[k, j] = time
         j += 1
