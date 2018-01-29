@@ -143,10 +143,10 @@ def train_nn(batch_size):
     end = timeit.default_timer()
     time_taken = end - start
     _, t_acc = give_acc(X_train, y_train, X_test, y_test, w1, w2, b1, b2)
-    pd.DataFrame(np.reshape(w1, (-1))).to_csv("w1_2ly"+str(hidden_neurons)+".csv", index=False)
-    pd.DataFrame(np.reshape(w2, (-1))).to_csv("w2_2ly"+str(hidden_neurons)+".csv", index=False)
-    pd.DataFrame(np.reshape(b1, (-1))).to_csv("b1_2ly"+str(hidden_neurons)+".csv", index=False)
-    pd.DataFrame(np.reshape(b2, (-1))).to_csv("b2_2ly"+str(hidden_neurons)+".csv", index=False)
+    pd.DataFrame(np.reshape(w1, (-1))).to_csv("w1_2ly"+str(batch_size)+".csv", index=False)
+    pd.DataFrame(np.reshape(w2, (-1))).to_csv("w2_2ly"+str(batch_size)+".csv", index=False)
+    pd.DataFrame(np.reshape(b1, (-1))).to_csv("b1_2ly"+str(batch_size)+".csv", index=False)
+    pd.DataFrame(np.reshape(b2, (-1))).to_csv("b2_2ly"+str(batch_size)+".csv", index=False)
     return t_acc, time_taken
 
 paras = [50, 100, 500, 1000, 2000]
