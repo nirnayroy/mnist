@@ -41,7 +41,7 @@ def cost_grad(W1, W2, W3, b1, b2, b3, X_train, y):
     h = sigmoid(l1)
     l2 = h.dot(W2) + b2
     h2 = sigmoid(l2)
-    l3 = h2.dot(w3) + b3
+    l3 = h2.dot(W3) + b3
     y_hat = softmax(l3)
 
     J = -np.sum(y * np.log(y_hat)) / m # cross entropy
@@ -77,7 +77,7 @@ def predict(X_train, y, W1, W2, W3, b1 ,b2, b3):
     h = sigmoid(l1)
     l2 = h.dot(W2) + b2
     h2 = sigmoid(l2)
-    l3 = h2.dot(w3) + b3
+    l3 = h2.dot(W3) + b3
     y_hat = softmax(l3)
     y = y.argmax(1)
     preds = y_hat.argmax(1)
@@ -171,7 +171,9 @@ def train_nn(hidden_neurons1, hidden_neurons2):
 vals = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 outc = np.zeros((10,10))
 outc_time = np.zeros((10,10))
+k =0
 while k<10:
+    j = 0
     while j<10:
         accu, time = train_nn(vals[k],vals[j])
         outc[k, j] = accu
